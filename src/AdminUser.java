@@ -11,5 +11,5 @@ public class AdminUser {
         this.isLogedIn = isLogedIn;
     }
     
-    //public SimpleUser[] getMyUsers
+    //public getMyUsers
 }
