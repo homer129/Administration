@@ -2,14 +2,15 @@ import java.util.Scanner;
 
 public class Administration {
     public static void main(String[] args){
-        AdminUser AU2 = new AdminUser("Nick", "123456", "q@.ru", null);
-        AdminUser AU3 = new AdminUser("Mick", "123456", "w@.ru", null);
-        AdminUser AU4 = new AdminUser("Wick", "123456", "e@.ru", null);
+        AdminUser AU2 = new AdminUser("Nick", "123456", "q@.ru", true);
+        AdminUser AU3 = new AdminUser("Mick", "123456", "w@.ru", false);
+        AdminUser AU4 = new AdminUser("Wick", "123456", "e@.ru", false);
         AdminUser[] auAr = {AU2, AU3, AU4};
-        SimpleUser SU2 = new SimpleUser("Han", "123456", "r@.ru", null);
-        SimpleUser SU3 = new SimpleUser("Man", "123456", "t.ru", null);
-        SimpleUser SU4 = new SimpleUser("San", "123456", "y@.ru", null);
+        SimpleUser SU2 = new SimpleUser("Han", "123456", "r@.ru", false, 0, false,  AU3);
+        SimpleUser SU3 = new SimpleUser("Man", "123456", "t.ru", false, 0, false, AU3);
+        SimpleUser SU4 = new SimpleUser("San", "123456", "y@.ru", false, 0, false, AU3);
         SimpleUser[] suAr = {SU2, SU3, SU4};
+        while (0 < 1) {
         Scanner console = new Scanner(System.in);
         System.out.println("Enter");
         String Enter = console.nextLine(); 
@@ -26,13 +27,21 @@ public class Administration {
             Scanner console4 = new Scanner(System.in);
             System.out.println("enter isAdmin");
             Boolean isAdmin = console4.nextBoolean();
-            if (isAdmin==true) {
-                AdminUser AU1 = new AdminUser(enUsNa, enPa, enEm, null);                
-            } if (isAdmin==false) {
-                SimpleUser SU1 = new SimpleUser(enUsNa, enPa, enEm, null);
-                AdminUser personslAdmin = AU2;
-            }
-        } if (Enter.equals("login")) {
+            if (isAdmin == true) {
+                AdminUser AU1 = new AdminUser(enUsNa, enPa, enEm, false);                
+            } if (isAdmin == false) {
+                int aN = (int) (Math.random() * 101);
+                Scanner console11 = new Scanner(System.in);
+                System.out.println("enter userNamePersonalAdmin");
+                String usNaPeAd = console11.nextLine();
+                for (int a = 0; a < auAr.length; a++){
+                    if (auAr[a].userName.equals(usNaPeAd)) {
+                        AdminUser personalAdmin = auAr[a];
+                        SimpleUser SU1 = new SimpleUser(enUsNa, enPa, enEm, false, aN, false, personalAdmin);
+                    }
+                }
+            }                
+            } if (Enter.equals("login")) {
             Scanner console5 = new Scanner(System.in);
             System.out.println("enter userName");
             String enUsNa1 = console5.nextLine();
@@ -64,8 +73,28 @@ public class Administration {
                     suAr[l].isLogedIn = false;                    
                 }
             } 
-        }
-    }    
+        } if (Enter.equals("prime")) {
+            Scanner console9 = new Scanner(System.in);
+            System.out.println("enter userName");
+            String enUsNa3 = console9.nextLine();
+            for (int h = 0; h < auAr.length; h++) {
+                if (auAr[h].userName.equals(enUsNa3) & auAr[h].isLogedIn == true) {
+                    Scanner console10 = new Scanner(System.in);
+                    System.out.println("enter userName");
+                    String enUsNa4 = console10.nextLine();
+                    for (int r = 0; r < suAr.length; r++) {
+                        if (suAr[r].userName.equals(enUsNa4)) {
+                            suAr[r].isPrime = true;                            
+                        }
+                    }
+                }
+            } 
+        } if (Enter.equals("exit")) 
+        break; 
+    }  
+
+    }   
 }
+
 
 
