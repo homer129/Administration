@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Administration {
     public static void main(String[] args){
@@ -7,8 +8,8 @@ public class Administration {
         AdminUser AU4 = new AdminUser("Wick", "123456", "e@.ru", false);
         AdminUser[] auAr = {AU2, AU3, AU4};
         SimpleUser SU2 = new SimpleUser("Han", "123456", "r@.ru", false, 0, false,  AU3);
-        SimpleUser SU3 = new SimpleUser("Man", "123456", "t.ru", false, 0, false, AU3);
-        SimpleUser SU4 = new SimpleUser("San", "123456", "y@.ru", false, 0, false, AU3);
+        SimpleUser SU3 = new SimpleUser("Man", "123456", "t.ru", true, 0, false, AU3);
+        SimpleUser SU4 = new SimpleUser("San", "123456", "y@.ru", true, 0, false, AU3);
         SimpleUser[] suAr = {SU2, SU3, SU4};
         while (0 < 1) {
         Scanner console = new Scanner(System.in);
@@ -75,20 +76,20 @@ public class Administration {
             } 
         } if (Enter.equals("prime")) {
             Scanner console9 = new Scanner(System.in);
-            System.out.println("enter userName");
+            System.out.println("enter personalAdmin");
             String enUsNa3 = console9.nextLine();
+            AdminUser personalAdmin1 = null;
             for (int h = 0; h < auAr.length; h++) {
-                if (auAr[h].userName.equals(enUsNa3) & auAr[h].isLogedIn == true) {
-                    Scanner console10 = new Scanner(System.in);
-                    System.out.println("enter userName");
-                    String enUsNa4 = console10.nextLine();
-                    for (int r = 0; r < suAr.length; r++) {
-                        if (suAr[r].userName.equals(enUsNa4)) {
-                            suAr[r].isPrime = true;                            
-                        }
-                    }
+                if (auAr[h].userName.equals(enUsNa3)){
+                    personalAdmin1 = auAr[h];
                 }
-            } 
+            }
+            SimpleUser.setPrime(personalAdmin1, suAr);
+             
+        } if (Enter.equals("myUsers")) {
+            System.out.println(AdminUser.getMyUsers(suAr));
+        } if (Enter.equals("allUsers")) {
+            System.out.println(AdminUser.getAllSimpleUsers(auAr, suAr));
         } if (Enter.equals("exit")) 
         break; 
     }  
