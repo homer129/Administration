@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AdminUser {
     public String userName;
@@ -13,21 +14,31 @@ public class AdminUser {
         this.isLogedIn = isLogedIn;
     }
     
-    public static String getMyUsers (SimpleUser[] AR) {
-        ArrayList<SimpleUser> List = new ArrayList<>();
-        for (int b = 0; b < AR.length; b++) {
-            if (AR[b].isLogedIn==true) {
-                List.add(AR[b]);
+    public  ArrayList<SimpleUser> getMyUsers (HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
+        ArrayList<AdminUser> allAdminUsers = new ArrayList<>(alladminusers.values());
+        ArrayList<AdminUser> myAdmin = new ArrayList<>();
+        for (int p = 0; p < allAdminUsers.size(); p++) {
+            if (allAdminUsers.get(p).isLogedIn == true) {
+                myAdmin.add(allAdminUsers.get(p));
             }
         }
-        String str = List.toString();
+        ArrayList<SimpleUser> allSimpleUsers = new ArrayList<>(allsimpleusers.values());
+        ArrayList<SimpleUser> mySimpleUsers = new ArrayList<>();
+        for (int b = 0; b < allSimpleUsers.size(); b++) {
+            if (allSimpleUsers.get(b).personalAdmin == myAdmin.get(0)) {
+                mySimpleUsers.add(allSimpleUsers.get(b));
+            }
+        }
+        return mySimpleUsers;
+
+        /*String str = mySimpleUsers.toString();
         String newStr = "";
         for (int g = 0; g < str.length(); g++){
             if (str.charAt(g) != '[' && str.charAt(g) != ']') {
                 newStr += str.charAt(g);
             }
         }
-        return newStr;
+        return newStr;*/
     }
 
     public static String getAllSimpleUsers(AdminUser[] AR1, SimpleUser[] AR2) {

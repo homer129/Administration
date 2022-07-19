@@ -9,7 +9,12 @@ public class SimpleUser extends AdminUser {
         this.accountNumber = accountNumber;
         this.isPrime = isPrime;
         this.personalAdmin = personalAdmin;
-    }
+    }    
+
+    public static Integer RandomNumber(int sample) {
+        int randomNumber = (int) (Math.random() * sample);
+        return randomNumber;
+    } 
 
     public static String setPrime (AdminUser personalAdmin1, SimpleUser[] AR4) {    
         if (personalAdmin1.isLogedIn == true) {
