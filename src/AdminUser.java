@@ -14,7 +14,7 @@ public class AdminUser {
         this.isLogedIn = isLogedIn;
     }
     
-    public  ArrayList<SimpleUser> getMyUsers (HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
+    public ArrayList<SimpleUser> getMyUsers (HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
         ArrayList<AdminUser> allAdminUsers = new ArrayList<>(alladminusers.values());
         ArrayList<AdminUser> myAdmin = new ArrayList<>();
         for (int p = 0; p < allAdminUsers.size(); p++) {
@@ -41,22 +41,16 @@ public class AdminUser {
         return newStr;*/
     }
 
-    public static String getAllSimpleUsers(AdminUser[] AR1, SimpleUser[] AR2) {
-        ArrayList<AdminUser> List1 = new ArrayList<>();
-        ArrayList<SimpleUser> List2 = new ArrayList<>();
-        for (int c = 0; c < AR1.length; c++){
-            List1.add(AR1[c]);
-        }
-        for (int d = 0; d < AR2.length; d++){
-            List2.add(AR2[d]);
-        }
-        String str1 = List1.toString() + ", " + List2.toString();
-        String newStr1 = "";
-        for (int e = 0; e < str1.length(); e++){
-            if (str1.charAt(e) != '[' && str1.charAt(e) != ']') {
-                newStr1 += str1.charAt(e);
+    public static String getAllSimpleUsers(HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
+        ArrayList<AdminUser> allAdminusers = new ArrayList<>(alladminusers.values());
+        ArrayList<SimpleUser> allSimpleusers = new ArrayList<>(allsimpleusers.values());
+        String str1 = allAdminusers.toString() + ", " + allSimpleusers.toString();
+        String str2 = "";
+        for (int t = 0; t < str1.length(); t++) {
+            if (str1.charAt(t) != '[' && str1.charAt(t) != ']') {
+                str2 += str1.charAt(t);
             }
         }
-        return newStr1;
+        return str2;
     }
 }

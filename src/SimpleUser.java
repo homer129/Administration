@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class SimpleUser extends AdminUser {
     public static Integer accountNumber; 
@@ -16,18 +17,11 @@ public class SimpleUser extends AdminUser {
         return randomNumber;
     } 
 
-    public static String setPrime (AdminUser personalAdmin1, SimpleUser[] AR4) {    
-        if (personalAdmin1.isLogedIn == true) {
-            Scanner console10 = new Scanner(System.in);
-            System.out.println("enter userName");
-            String enUsNa4 = console10.nextLine();
-            for (int r = 0; r < AR4.length; r++) {
-                if (AR4[r].userName.equals(enUsNa4)) {
-                    AR4[r].isPrime = true;                            
-                }
-        }
-        
-    } return null;
-}
-
+    public String setPrime (HashMap<String, SimpleUser> allsimpleusers) {
+        Scanner console10 = new Scanner(System.in);
+        System.out.println("enter simpleUserName");
+        String simpleUserName = console10.nextLine();
+        allsimpleusers.get(simpleUserName).isPrime = true; 
+        return  simpleUserName + " is prime";
+    }
 }
