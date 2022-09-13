@@ -5,22 +5,22 @@ import java.util.HashMap;
 public class Administration {
     static HashMap<String, AdminUser> allAdminUser = new HashMap<>();
     static HashMap<String, SimpleUser> allSimpleUser = new HashMap<>();
-    static String enter = "Enter";
-    static String register = "register";
-    static String enterUserName = "enter userName";
-    static String enterPassword = "enter password";
-    static String enterEmail = "enter email";
-    static String enterIsAdmin = "enter isAdmin";
-    static String login = "login";
-    static String logout = "logout";
-    static String prime = "prime";
-    static String myUsers = "myUsers";
-    static String allUsers = "allUsers";
-    static String exit = "exit";
-    static String enterUserNamePersonalAdmin = "enter userNamePersonalAdmin"; 
-    static String LoginIsUsed = "Login is used";
-    static String isLogedOut = " is loged out.";
-    static String isLogedIn = " is loged in.";
+    static final String enter = "Enter";
+    static final String register = "register";
+    static final String enterUserName = "enter userName";
+    static final String enterPassword = "enter password";
+    static final String enterEmail = "enter email";
+    static final String enterIsAdmin = "enter isAdmin";
+    static final String login = "login";
+    static final String logout = "logout";
+    static final String prime = "prime";
+    static final String myUsers = "myUsers";
+    static final String allUsers = "allUsers";
+    static final String exit = "exit";
+    static final String enterUserNamePersonalAdmin = "enter userNamePersonalAdmin"; 
+    static final String LoginIsUsed = "Login is used";
+    static final String isLogedOut = " is loged out.";
+    static final String isLogedIn = " is loged in.";
 
     public static void main(String[] args){  
         while (1 > 0) {  
@@ -40,7 +40,7 @@ public class Administration {
             Scanner console4 = new Scanner(System.in);
             System.out.println(enterIsAdmin);
             Boolean isAdmin = console4.nextBoolean();
-            Administration.LogedIn(username, password, email, isAdmin);                          
+            Administration.registeredIn(username, password, email, isAdmin);                          
         } if (Enter.equals(login) || Enter.equals(logout)) {
             Administration.loginLogout(Enter);
         } if (Enter.equals(prime)) {
@@ -78,18 +78,12 @@ public class Administration {
             String enterpassword = console8.nextLine();
             Administration.logedIn(valuesAdmin, valuesSimple, enteruserName, enterpassword);   
         } if (enter.equals(logout)) {
-            for (int y = 0; y < valuesAdmin.size(); y++) {
-                if (valuesAdmin.get(y).isLogedIn == true) {
-                    valuesAdmin.get(y).isLogedIn = false;
-                    System.out.println(valuesAdmin.get(y).userName + isLogedOut);
-                }
-            }
-            for (int z = 0; z < valuesSimple.size(); z++) {
-                if (valuesSimple.get(z).isLogedIn == true) {
-                    valuesSimple.get(z).isLogedIn = false;
-                    System.out.println(valuesSimple.get(z).userName + isLogedOut);
-                }
-            }
+            for (AdminUser u : valuesAdmin) {
+                u.isLogedIn = false;
+            }    
+            for (SimpleUser e : valuesSimple) {
+                e.isLogedIn = false;
+            }    
         }
         return null;
     }
@@ -122,7 +116,7 @@ public class Administration {
         }         
     }
 
-    public static void LogedIn (String username, String password, String email, Boolean isAdmin) {
+    public static void registeredIn (String username, String password, String email, Boolean isAdmin) {
         if (isAdmin == true) {
             if (allAdminUser.containsKey(username) == true) {
                 System.out.println(LoginIsUsed);
