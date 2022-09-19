@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.HashMap;
 
-public class SimpleUser extends AdminUser {
+public class SimpleUser extends AdminUser implements User {
     public static Integer accountNumber; 
     public Boolean isPrime;
     public AdminUser personalAdmin; 
@@ -23,5 +23,26 @@ public class SimpleUser extends AdminUser {
         String simpleUserName = console10.nextLine();
         allsimpleusers.get(simpleUserName).isPrime = true; 
         return  simpleUserName + " is prime";
+    }
+
+    public String getUserName() {
+        String str = this.userName + "Simple";
+        return str;
+    }
+
+    public String getUserPassword() {
+        return this.password;
+    }
+
+    public String getEmail() {
+        String str1 = "";
+        for (int t = 0; t < this.email.length(); t++) {
+            if (this.email.charAt(t) == '.') {
+                str1 = str1 + "Simple" + this.email.charAt(t);
+            } else {
+                str1 = str1 + this.email.charAt(t);
+            }
+        }
+        return str1;
     }
 }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AdminUser {
+public class AdminUser implements User {
     public String userName;
     public String password;
     public String email;
@@ -52,5 +52,26 @@ public class AdminUser {
             }
         }
         return str2;
+    }
+
+    public String getUserName() {
+        String str = this.userName + "Admin";
+        return str;
+    }
+
+    public String getUserPassword() {
+        return this.password;
+    }
+
+    public String getEmail() {
+        String str1 = "";
+        for (int t = 0; t < this.email.length(); t++) {
+            if (this.email.charAt(t) == '.') {
+                str1 = str1 + "Admin" + this.email.charAt(t);
+            } else {
+                str1 = str1 + this.email.charAt(t);
+            }
+        }
+        return str1;
     }
 }
