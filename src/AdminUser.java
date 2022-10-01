@@ -41,17 +41,24 @@ public class AdminUser implements User {
         return newStr;*/
     }
 
-    public static String getAllSimpleUsers(HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
+    public static ArrayList<User> getAllSimpleUsers(HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
+        ArrayList<User> allUsers = new ArrayList<User>();
         ArrayList<AdminUser> allAdminusers = new ArrayList<>(alladminusers.values());
+        for (AdminUser a : allAdminusers) {
+            allUsers.add(a);
+        }
         ArrayList<SimpleUser> allSimpleusers = new ArrayList<>(allsimpleusers.values());
-        String str1 = allAdminusers.toString() + ", " + allSimpleusers.toString();
+        for (SimpleUser b : allSimpleusers) {
+            allUsers.add(b);            
+        }        
+        /*String str1 = allUsers.toString();
         String str2 = "";
         for (int t = 0; t < str1.length(); t++) {
             if (str1.charAt(t) != '[' && str1.charAt(t) != ']') {
                 str2 += str1.charAt(t);
             }
-        }
-        return str2;
+        }*/
+        return allUsers;
     }
 
     public String getUserName() {
@@ -73,5 +80,9 @@ public class AdminUser implements User {
             }
         }
         return str1;
+    }
+
+    public Boolean isAdmin() {
+        return true;
     }
 }

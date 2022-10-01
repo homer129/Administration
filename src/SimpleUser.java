@@ -45,4 +45,8 @@ public class SimpleUser extends AdminUser implements User {
         }
         return str1;
     }
+
+    public Boolean isAdmin() {
+        return false;
+    }
 }

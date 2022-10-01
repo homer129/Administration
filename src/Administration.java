@@ -72,58 +72,63 @@ public class Administration {
         break;}   
     }
     
-    public static String loginLogout(String enter) throws UserException {
-        ArrayList<AdminUser> valuesAdmin = new ArrayList<>(allAdminUser.values());
-        ArrayList<SimpleUser> valuesSimple = new ArrayList<>(allSimpleUser.values());    
-        if (enter.equals(login)) {
+    public static void loginLogout(String enter) throws UserException {
+        ArrayList<User> allusers = new ArrayList<User>();
+        ArrayList<AdminUser> alladminusers = new ArrayList<>(allAdminUser.values());
+        for (AdminUser k : alladminusers) {
+            allusers.add(k);
+        }
+        ArrayList<SimpleUser> allsimpleusers = new ArrayList<>(allSimpleUser.values());
+        for (SimpleUser l : allsimpleusers) {
+            allusers.add(l);            
+        } if (enter.equals(login)) {
             Scanner console7 = new Scanner(System.in);
             System.out.println(enterUserName);
             String enteruserName = console7.nextLine();
             Scanner console8 = new Scanner(System.in);
             System.out.println(enterPassword);
             String enterpassword = console8.nextLine();
-            Administration.logedIn(valuesAdmin, valuesSimple, enteruserName, enterpassword); 
+            Administration.logedIn(allusers, enteruserName, enterpassword); 
         } if (enter.equals(logout)) {
-            for (AdminUser u : valuesAdmin) {
-                u.isLogedIn = false;
-            }    
-            for (SimpleUser e : valuesSimple) {
-                e.isLogedIn = false;
-            }    
+            /*for (int i = 0; i < allusers.size(); i++) {
+                if (allusers.get(i).isAdmin() == true) {
+                    ((AdminUser)allusers.get(i)).isLogedIn = false;                              
+                } else {
+                    ((SimpleUser)allusers.get(i)).isLogedIn = false;
+                }
+            }*/
+            for (User u : allusers) {
+                if (u.isAdmin() == true) {
+                    ((AdminUser)u).isLogedIn = false;
+                } else {
+                    ((SimpleUser)u).isLogedIn = false;
+                }                
+            }   
         }
-        return null;
     }
 
-    public static void logedIn(ArrayList<AdminUser> list, ArrayList<SimpleUser> list1, String username, String pasword) throws UserException {
-        if (allAdminUser.containsKey(username) == true) {
-            for (int r = 0; r < list.size(); r++) {
-                if (list.get(r).userName.equals(username) && list.get(r).password.equals(pasword)) {
-                    list.get(r).isLogedIn = true;
-                    System.out.println(list.get(r).userName + isLogedIn);
-                } else  if (list.get(r).userName.equals(username) && list.get(r).password.equals(pasword) != true) {
+    public static void logedIn(ArrayList<User> allUser, String username, String pasword) throws UserException {
+        for (int r = 0; r < allUser.size(); r++) {
+            if (allUser.get(r).isAdmin() == true) {
+                if (((AdminUser)allUser.get(r)).userName.equals(username) && ((AdminUser)allUser.get(r)).password.equals(pasword)) {
+                    ((AdminUser)allUser.get(r)).isLogedIn = true;
+                    System.out.println(((AdminUser)allUser.get(r)).userName + isLogedIn);
+                } else  if (((AdminUser)allUser.get(r)).userName.equals(username) && ((AdminUser)allUser.get(r)).password.equals(pasword) != true) {
                     throw new UserException("Password is not correct!!!");
                 }  else {
-                    list.get(r).isLogedIn = false;
+                    ((AdminUser)allUser.get(r)).isLogedIn = false;
                 }
-            }
-            for (SimpleUser t : list1) {
-                t.isLogedIn = false;
-            }   
-        } if (allSimpleUser.containsKey(username) == true) {
-            for (int o = 0; o < list1.size(); o++) {
-                if (list1.get(o).userName.equals(username) && list1.get(o).password.equals(pasword)) {
-                    list1.get(o).isLogedIn = true;
-                    System.out.println(list1.get(o).userName + isLogedIn);
-                } else  if (list1.get(o).userName.equals(username) && list1.get(o).password.equals(pasword) != true) {
-                    throw new UserException("Password is not correct!!!");    
-                } else {
-                    list1.get(o).isLogedIn = false;
+            } if (allUser.get(r).isAdmin() == false) {
+                if (((SimpleUser)allUser.get(r)).userName.equals(username) && ((SimpleUser)allUser.get(r)).password.equals(pasword)) {
+                    ((SimpleUser)allUser.get(r)).isLogedIn = true;
+                    System.out.println(((SimpleUser)allUser.get(r)).userName + isLogedIn);
+                } else  if (((SimpleUser)allUser.get(r)).userName.equals(username) && ((SimpleUser)allUser.get(r)).password.equals(pasword) != true) {
+                    throw new UserException("Password is not correct!!!");
+                }  else {
+                    ((SimpleUser)allUser.get(r)).isLogedIn = false;
                 }
-            }
-            for (AdminUser l : list) {
-                l.isLogedIn = false;
-            }               
-        }         
+            }            
+        }       
     }
 
     public static void registeredIn (String username, String password, String email, Boolean isAdmin) throws UserException {

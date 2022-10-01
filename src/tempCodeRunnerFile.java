@@ -1,1 +1,3 @@
-list3
+public Boolean isAdmin() {
+        return true;
+    }
