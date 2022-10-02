@@ -17,11 +17,11 @@ public class SimpleUser extends AdminUser implements User {
         return randomNumber;
     } 
 
-    public String setPrime (HashMap<String, SimpleUser> allsimpleusers) {
+    public String setPrime (HashMap<String, User> allusers) {
         Scanner console10 = new Scanner(System.in);
         System.out.println("enter simpleUserName");
         String simpleUserName = console10.nextLine();
-        allsimpleusers.get(simpleUserName).isPrime = true; 
+        ((SimpleUser)allusers.get(simpleUserName)).isPrime = true; 
         return  simpleUserName + " is prime";
     }
 

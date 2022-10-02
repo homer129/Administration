@@ -1,3 +1,1 @@
-public Boolean isAdmin() {
-        return true;
-    }
+u.isAdmin() == true

@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.io.IOException;
 
 public class Administration {
-    static HashMap<String, AdminUser> allAdminUser = new HashMap<>();
-    static HashMap<String, SimpleUser> allSimpleUser = new HashMap<>();
+    static HashMap<String, User> allUser = new HashMap<>();    
     static final String enter = "Enter";
     static final String register = "register";
     static final String enterUserName = "enter userName";
@@ -52,20 +51,27 @@ public class Administration {
             Scanner console8 = new Scanner(System.in);
             System.out.println(enterPassword);
             String enterpassword = console8.nextLine();
-            ArrayList<AdminUser> valuesAdmin = new ArrayList<>(allAdminUser.values());
-            for (int d = 0; d < valuesAdmin.size(); d++) {
-                if (valuesAdmin.get(d).userName.equals(enteruserName) && valuesAdmin.get(d).password.equals(enterpassword) && valuesAdmin.get(d).isLogedIn == true) {
+            ArrayList<User> valuesUser = new ArrayList<>(allUser.values());
+            for (int d = 0; d < valuesUser.size(); d++) {
+                AdminUser admin = ((AdminUser)valuesUser.get(d));
+                if (valuesUser.get(d).isAdmin() == true
+                    && admin.userName.equals(enteruserName) 
+                    && admin.password.equals(enterpassword) 
+                    && admin.isLogedIn == true) {
                     SimpleUser simpleUser = new SimpleUser("Anton", "123456", "@.by", false, SimpleUser.RandomNumber(101), false, null);
-                    System.out.println(simpleUser.setPrime(allSimpleUser));
-                } else if (valuesAdmin.get(d).userName.equals(enteruserName) && valuesAdmin.get(d).password.equals(enterpassword) && valuesAdmin.get(d).isLogedIn != true) {
-                    throw new UserException("isLogedIn " + valuesAdmin.get(d).userName + " is not true!!!");
+                    System.out.println(simpleUser.setPrime(allUser));
+                } else if (valuesUser.get(d).isAdmin() == true
+                && admin.userName.equals(enteruserName) 
+                && admin.password.equals(enterpassword) 
+                && admin.isLogedIn != true) {
+                    throw new UserException("isLogedIn " + admin + " is not true!!!");
                 }
             }   
         } if (Enter.equals(myUsers)) {
             AdminUser adminUser = new AdminUser("Anton", "123456", "@.by", false);
-            System.out.println(adminUser.getMyUsers(allSimpleUser, allAdminUser));
+            System.out.println(adminUser.getMyUsers(allUser));
         } if (Enter.equals(allUsers)) {
-            System.out.println(AdminUser.getAllSimpleUsers(allSimpleUser, allAdminUser));
+            System.out.println(AdminUser.getAllSimpleUsers(allUser));
         } if (Enter.equals(Null)) {
             throw new UserException("You entered null!!!");
         } if (Enter.equals(exit))
@@ -73,31 +79,17 @@ public class Administration {
     }
     
     public static void loginLogout(String enter) throws UserException {
-        ArrayList<User> allusers = new ArrayList<User>();
-        ArrayList<AdminUser> alladminusers = new ArrayList<>(allAdminUser.values());
-        for (AdminUser k : alladminusers) {
-            allusers.add(k);
-        }
-        ArrayList<SimpleUser> allsimpleusers = new ArrayList<>(allSimpleUser.values());
-        for (SimpleUser l : allsimpleusers) {
-            allusers.add(l);            
-        } if (enter.equals(login)) {
+        ArrayList<User> valuesUsers = new ArrayList<>(allUser.values());            
+        if (enter.equals(login)) {
             Scanner console7 = new Scanner(System.in);
             System.out.println(enterUserName);
             String enteruserName = console7.nextLine();
             Scanner console8 = new Scanner(System.in);
             System.out.println(enterPassword);
             String enterpassword = console8.nextLine();
-            Administration.logedIn(allusers, enteruserName, enterpassword); 
+            Administration.logedIn(valuesUsers, enteruserName, enterpassword); 
         } if (enter.equals(logout)) {
-            /*for (int i = 0; i < allusers.size(); i++) {
-                if (allusers.get(i).isAdmin() == true) {
-                    ((AdminUser)allusers.get(i)).isLogedIn = false;                              
-                } else {
-                    ((SimpleUser)allusers.get(i)).isLogedIn = false;
-                }
-            }*/
-            for (User u : allusers) {
+            for (User u : valuesUsers) {
                 if (u.isAdmin() == true) {
                     ((AdminUser)u).isLogedIn = false;
                 } else {
@@ -108,24 +100,26 @@ public class Administration {
     }
 
     public static void logedIn(ArrayList<User> allUser, String username, String pasword) throws UserException {
-        for (int r = 0; r < allUser.size(); r++) {
+        for (int r = 0; r < allUser.size(); r++) {    
             if (allUser.get(r).isAdmin() == true) {
-                if (((AdminUser)allUser.get(r)).userName.equals(username) && ((AdminUser)allUser.get(r)).password.equals(pasword)) {
-                    ((AdminUser)allUser.get(r)).isLogedIn = true;
-                    System.out.println(((AdminUser)allUser.get(r)).userName + isLogedIn);
-                } else  if (((AdminUser)allUser.get(r)).userName.equals(username) && ((AdminUser)allUser.get(r)).password.equals(pasword) != true) {
+                AdminUser admin = ((AdminUser)allUser.get(r));
+                if (admin.userName.equals(username) && admin.password.equals(pasword)) {
+                    admin.isLogedIn = true;
+                    System.out.println(admin.userName + isLogedIn);
+                } else  if (admin.userName.equals(username) && admin.password.equals(pasword) != true) {
                     throw new UserException("Password is not correct!!!");
                 }  else {
-                    ((AdminUser)allUser.get(r)).isLogedIn = false;
+                    admin.isLogedIn = false;
                 }
             } if (allUser.get(r).isAdmin() == false) {
-                if (((SimpleUser)allUser.get(r)).userName.equals(username) && ((SimpleUser)allUser.get(r)).password.equals(pasword)) {
-                    ((SimpleUser)allUser.get(r)).isLogedIn = true;
-                    System.out.println(((SimpleUser)allUser.get(r)).userName + isLogedIn);
-                } else  if (((SimpleUser)allUser.get(r)).userName.equals(username) && ((SimpleUser)allUser.get(r)).password.equals(pasword) != true) {
+                SimpleUser simple = ((SimpleUser)allUser.get(r));
+                if (simple.userName.equals(username) && simple.password.equals(pasword)) {
+                    simple.isLogedIn = true;
+                    System.out.println(simple.userName + isLogedIn);
+                } else  if (simple.userName.equals(username) && simple.password.equals(pasword) != true) {
                     throw new UserException("Password is not correct!!!");
                 }  else {
-                    ((SimpleUser)allUser.get(r)).isLogedIn = false;
+                    simple.isLogedIn = false;
                 }
             }            
         }       
@@ -133,29 +127,29 @@ public class Administration {
 
     public static void registeredIn (String username, String password, String email, Boolean isAdmin) throws UserException {
         if (isAdmin == true) {
-            if (allAdminUser.containsKey(username) == true) {
+            if (allUser.containsKey(username) == true) {
                 System.out.println(LoginIsUsed);
             } else {
                 AdminUser adminUser = new AdminUser(username, password, email, false);
-                allAdminUser.put(username, adminUser); 
+                allUser.put(username, adminUser); 
             }                               
         } if (isAdmin == false) {
             Scanner console11 = new Scanner(System.in);
             System.out.println(enterUserNamePersonalAdmin);
             String userNamePersonalAdmin = console11.nextLine();  
-            if (allAdminUser.containsKey(userNamePersonalAdmin) == true) {
-                if (allSimpleUser.containsKey(username)) {
+            if (allUser.containsKey(userNamePersonalAdmin) == true) {
+                if (allUser.containsKey(username)) {
                     System.out.println(LoginIsUsed);
                 } else {
-                    SimpleUser simpleUser = new SimpleUser(username, password, email, false, SimpleUser.RandomNumber(101), false, allAdminUser.get(userNamePersonalAdmin));
-                    allSimpleUser.put(username, simpleUser);
+                    SimpleUser simpleUser = new SimpleUser(username, password, email, false, SimpleUser.RandomNumber(101), false, ((AdminUser)allUser.get(userNamePersonalAdmin)));
+                    allUser.put(username, simpleUser);
                 }                    
             } else {
-                if (allSimpleUser.containsKey(username)) {
+                if (allUser.containsKey(username)) {
                     System.out.println(LoginIsUsed);
                 } else {
                     SimpleUser simpleUser = new SimpleUser(username, password, email, false, SimpleUser.RandomNumber(101), false, null);
-                    allSimpleUser.put(username, simpleUser);
+                    allUser.put(username, simpleUser);
                 } 
             }
         }       

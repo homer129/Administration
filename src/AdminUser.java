@@ -14,19 +14,18 @@ public class AdminUser implements User {
         this.isLogedIn = isLogedIn;
     }
     
-    public ArrayList<SimpleUser> getMyUsers (HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
-        ArrayList<AdminUser> allAdminUsers = new ArrayList<>(alladminusers.values());
+    public ArrayList<SimpleUser> getMyUsers (HashMap<String, User> allusers) {
+        ArrayList<User> allUsers = new ArrayList<>(allusers.values());
         ArrayList<AdminUser> myAdmin = new ArrayList<>();
-        for (int p = 0; p < allAdminUsers.size(); p++) {
-            if (allAdminUsers.get(p).isLogedIn == true) {
-                myAdmin.add(allAdminUsers.get(p));
+        for (int p = 0; p < allUsers.size(); p++) {
+            if (allUsers.get(p).isAdmin() == true && ((AdminUser)allUsers.get(p)).isLogedIn == true) {
+                myAdmin.add(((AdminUser)allUsers.get(p)));
             }
         }
-        ArrayList<SimpleUser> allSimpleUsers = new ArrayList<>(allsimpleusers.values());
         ArrayList<SimpleUser> mySimpleUsers = new ArrayList<>();
-        for (int b = 0; b < allSimpleUsers.size(); b++) {
-            if (allSimpleUsers.get(b).personalAdmin == myAdmin.get(0)) {
-                mySimpleUsers.add(allSimpleUsers.get(b));
+        for (int b = 0; b < allUsers.size(); b++) {
+            if (allUsers.get(b).isAdmin() == false && (((SimpleUser)allUsers.get(b)).personalAdmin == myAdmin.get(0))) {
+                mySimpleUsers.add(((SimpleUser)allUsers.get(b)));
             }
         }
         return mySimpleUsers;
@@ -41,16 +40,8 @@ public class AdminUser implements User {
         return newStr;*/
     }
 
-    public static ArrayList<User> getAllSimpleUsers(HashMap<String, SimpleUser> allsimpleusers, HashMap<String, AdminUser> alladminusers) {
-        ArrayList<User> allUsers = new ArrayList<User>();
-        ArrayList<AdminUser> allAdminusers = new ArrayList<>(alladminusers.values());
-        for (AdminUser a : allAdminusers) {
-            allUsers.add(a);
-        }
-        ArrayList<SimpleUser> allSimpleusers = new ArrayList<>(allsimpleusers.values());
-        for (SimpleUser b : allSimpleusers) {
-            allUsers.add(b);            
-        }        
+    public static ArrayList<User> getAllSimpleUsers(HashMap<String, User> allusers) {
+        ArrayList<User> allUsers = new ArrayList<User>(allusers.values());   
         /*String str1 = allUsers.toString();
         String str2 = "";
         for (int t = 0; t < str1.length(); t++) {
